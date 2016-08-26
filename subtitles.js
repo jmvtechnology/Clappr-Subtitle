@@ -184,7 +184,7 @@
 
         /**
          * Check if string given has the syntax of the first line of a block
-         * @private {string} line
+         * @param {string} line
          * @return {bool}
          */
         isFirstLineOfBlock : function(line) {
