@@ -5,7 +5,6 @@
     </head>
     <body>
         <div id="player"></div>
-        <div id="player2"></div>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/clappr/latest/clappr.min.js"></script>
         <script type="text/javascript" src="subtitles.js"></script>
         <script type="text/javascript">
@@ -21,19 +20,6 @@
                 subtitle : "video.str"
             });
             player.attachTo(document.getElementById('player'));
-
-            var player2 = new Clappr.Player({
-                source: 'video.mp4',
-                baseUrl: '/latest',
-                mute: true,
-                height: 360,
-                width: 640,
-                plugins: { 
-                    container: [ClapprSubtitle]
-                },
-                subtitle : "video.str"
-            });
-            player.attachTo(document.getElementById('player2'));
         </script>
     </body>
 </html>
