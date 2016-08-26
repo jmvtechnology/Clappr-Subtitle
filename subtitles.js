@@ -237,7 +237,8 @@
      * @private
      */
     function onMediaControlShow() {
-        element.style.bottom = '100px';
+        if(element)
+            element.style.bottom = '100px';
     }
 
     /**
@@ -246,7 +247,8 @@
      * @private
      */
     function onMediaControlHide() {
-        element.style.bottom = '50px';
+        if(element)
+            element.style.bottom = '50px';
     }
 
     /**
