@@ -27,6 +27,8 @@
          * @constructor
          */
         initialize : function() {
+
+            this.subtitles = [];
             
             // register polyfills
             this.polyfill();
