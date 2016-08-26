@@ -12,12 +12,12 @@ Usage
     plugins: { 
         container: [ClapprSubtitle]
     },
-    subtitle : "video.str" // URL to subtitle
+    subtitle : "video.srt" // URL to subtitle
 });
 player.attachTo(document.getElementById('player'));
 ```
 
-# STR FORMAT
+# SRT FORMAT
 
 ```
 1
@@ -37,4 +37,4 @@ Do not try and bend the spoon. That's impossible. Instead... only try to realize
 
 # WARNING
 
-This is a very early version.  You can't select subtitle tracks, and long str files may run slow.
+This is a very early version.  You can't select subtitle tracks, and long srt files may run slow.
