@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="utf-8">
+    <head>
+        <title>Subtitle</title>
+    </head>
+    <body>
+        <div id="player"></div>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/clappr/latest/clappr.min.js"></script>
+        <script type="text/javascript" src="subtitles.js"></script>
+        <script type="text/javascript">
+            var player = new Clappr.Player({
+                source: 'video.mp4',
+                baseUrl: '/latest',
+                mute: true,
+                height: 360,
+                width: 640,
+                plugins: { 
+                    container: [ClapprSubtitle]
+                },
+                subtitle : "video.str"
+            });
+            player.attachTo(document.getElementById('player'));
+        </script>
+    </body>
+</html>
