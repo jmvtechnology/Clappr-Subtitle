@@ -239,6 +239,7 @@
             el.style.opacity = '0';
             el.style.pointerEvents = 'none';
             el.style.maxWidth = '90%';
+            el.style.whiteSpace = 'normal';
             this.element = el;
             this.container.$el.append(this.element);
         },
