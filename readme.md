@@ -1,6 +1,6 @@
 # Clappr Subtitle
 
-Usage
+Simple Usage
 
 ```js
  var player = new Clappr.Player({
@@ -12,6 +12,31 @@ Usage
     plugins: { 
         container: [ClapprSubtitle]
     },
+    subtitle : "video.srt" // URL to subtitle
+});
+player.attachTo(document.getElementById('player'));
+```
+
+Styling the subtitles
+
+```js
+ var player = new Clappr.Player({
+    source: 'video.mp4',
+    baseUrl: '/latest',
+    mute: true,
+    height: 360,
+    width: 640,
+    plugins: { 
+        container: [ClapprSubtitle]
+    },
+    subtitle : {
+        src : "video.srt",
+        backgroundColor : 'transparent',
+        fontWeight : 'normal',
+        fontSize : '14px',
+        color: 'yellow',
+        textShadow : '1px 1px #000'
+    }
     subtitle : "video.srt" // URL to subtitle
 });
 player.attachTo(document.getElementById('player'));

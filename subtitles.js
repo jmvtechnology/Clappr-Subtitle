@@ -23,6 +23,15 @@
 
         element : null,
 
+        options : {
+            src : null,
+            backgroundColor : 'rgba(0, 0, 0, .8)',
+            color : '#FFF',
+            fontSize : '16px',
+            fontWeight : 'bold',
+            textShadow : 'none',
+        },
+
         /**
          * @constructor
          */
@@ -36,6 +45,36 @@
             // check options
             if (!'subtitle' in this._options)
                 return;
+
+            var options = this._options.subtitle;
+ 
+            // override src and style
+            // if 'options' is object
+            if (typeof(options) === "object") {
+                if('src' in options)
+                    this.options.src = options.src;
+                
+                if('backgroundColor' in options)
+                    this.options.backgroundColor = options.backgroundColor;
+
+                if('color' in options)
+                    this.options.color = options.color;
+                
+                if('fontSize' in options)
+                    this.options.fontSize = options.fontSize;
+                
+                if('fontWeight' in options)
+                    this.options.fontWeight = options.fontWeight;
+
+                if('textShadow' in options)
+                    this.options.textShadow = options.textShadow;
+
+            // override src if 'options' is string
+            } else if (typeof(options) === "string") {
+                this.options.src = options;
+            } else {
+                return;
+            }
 
             // fetch subtitles
             this.fetchSubtitle(this.onSubtitlesFetched.bind(this));
@@ -95,7 +134,7 @@
          */
         fetchSubtitle : function(cb) {
             var r = new XMLHttpRequest();
-            r.open("GET", this._options.subtitle, true);
+            r.open("GET", this.options.src, true);
             r.onreadystatechange = function () {
                 // nothing happens if request
                 // fails or is not ready
@@ -230,10 +269,11 @@
             el.style.position = 'absolute';
             el.style.left = '50%';
             el.style.bottom = '50px';
-            el.style.color = '#FFF';
-            el.style.backgroundColor = 'rgba(0, 0, 0, .8)';
-            el.style.fontSize = '16px';
-            el.style.fontWeight = 'bold';
+            el.style.color = this.options.color;
+            el.style.backgroundColor = this.options.backgroundColor;
+            el.style.fontSize = this.options.fontSize;
+            el.style.fontWeight = this.options.fontWeight;
+            el.style.textShadow = this.options.textShadow;
             el.style.transform = 'translateX(-50%)';
             el.style.boxSizing = 'border-box';
             el.style.padding = '7px';
