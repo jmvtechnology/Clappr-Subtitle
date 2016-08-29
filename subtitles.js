@@ -91,7 +91,6 @@
 
         /**
          * AJAX request to the subtitles source
-         * @param {string} url
          * @param {function} callback
          */
         fetchSubtitle : function(cb) {
@@ -124,7 +123,7 @@
 
             var line;
             for(var i = 0; i < data.length; i++) {
-                line = data[i];
+                line = data[i].trim();
 
                 // if block is not open
                 if(!blockOpen) {
