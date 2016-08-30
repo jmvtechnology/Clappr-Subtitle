@@ -9,9 +9,7 @@ Simple Usage
     mute: true,
     height: 360,
     width: 640,
-    plugins: { 
-        core: [ClapprSubtitle]
-    },
+    plugins: [ClapprSubtitle],
     subtitle : "video.srt" // URL to subtitle
 });
 player.attachTo(document.getElementById('player'));
@@ -26,9 +24,7 @@ Styling the subtitles
     mute: true,
     height: 360,
     width: 640,
-    plugins: { 
-        core: [ClapprSubtitle]
-    },
+    plugins: [ClapprSubtitle],
     subtitle : {
         src : "video.srt",
         auto : true, // automatically loads subtitle
