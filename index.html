@@ -15,9 +15,17 @@
                 height: 360,
                 width: 640,
                 plugins: { 
-                    container: [ClapprSubtitle]
+                    core: [ClapprSubtitle]
                 },
-                subtitle : "video.str"
+                subtitle : {
+                    src : "video.srt",
+                    auto : true,
+                    backgroundColor : 'transparent',
+                    fontWeight : 'normal',
+                    fontSize : '14px',
+                    color: 'yellow',
+                    textShadow : '1px 1px #000'
+                }
             });
             player.attachTo(document.getElementById('player'));
         </script>
