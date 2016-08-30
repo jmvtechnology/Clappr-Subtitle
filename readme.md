@@ -10,7 +10,7 @@ Simple Usage
     height: 360,
     width: 640,
     plugins: { 
-        container: [ClapprSubtitle]
+        core: [ClapprSubtitle]
     },
     subtitle : "video.srt" // URL to subtitle
 });
@@ -27,17 +27,17 @@ Styling the subtitles
     height: 360,
     width: 640,
     plugins: { 
-        container: [ClapprSubtitle]
+        core: [ClapprSubtitle]
     },
     subtitle : {
         src : "video.srt",
+        auto : true, // automatically loads subtitle
         backgroundColor : 'transparent',
         fontWeight : 'normal',
         fontSize : '14px',
         color: 'yellow',
         textShadow : '1px 1px #000'
-    }
-    subtitle : "video.srt" // URL to subtitle
+    },
 });
 player.attachTo(document.getElementById('player'));
 ```
