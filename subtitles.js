@@ -385,7 +385,7 @@
             // this is also a bit of a hack
             // I'm preventing double clicks by checking the time the last click happened
             // if it's less then a second ago, I bail
-            if (new Date() - this.lastMediaControlButtonClick < 1000)
+            if (new Date() - this.lastMediaControlButtonClick < 300)
                 return;
 
             // update lastMediaControlButtonClick
