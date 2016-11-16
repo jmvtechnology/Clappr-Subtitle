@@ -35,6 +35,8 @@
             textShadow : 'none',
         },
 
+        lastMediaControlButtonClick : new Date(),
+
         /**
          * @constructor
          */
@@ -102,6 +104,7 @@
             this.listenTo(this.core.mediaControl, Clappr.Events.MEDIACONTROL_RENDERED, this.addButtonToMediaControl);
             this.listenTo(this.core.mediaControl, Clappr.Events.MEDIACONTROL_SHOW, this.onMediaControlShow);
             this.listenTo(this.core.mediaControl, Clappr.Events.MEDIACONTROL_HIDE, this.onMediaControlHide);
+            this.listenTo(this.core.mediaControl, Clappr.Events.MEDIACONTROL_CONTAINERCHANGED, this.onContainerChanged);
         },
 
         /**
@@ -112,6 +115,28 @@
             this.core.containers[0].$el.append(this.element);
             // run
             this.listenTo(this.core.containers[0].playback, Clappr.Events.PLAYBACK_TIMEUPDATE, this.run);
+        },
+
+        /**
+         * On container changed
+         */
+        onContainerChanged : function() {
+            // container changed is fired right off the bat
+            // so we should bail if subtitles aren't yet loaded
+            if (this.subtitles.length === 0)
+                return;
+            
+            // kill the current element
+            this.element.parentNode.removeChild(this.element);
+
+            // clear subtitles
+            this.subtitle = [];
+
+            // initialize stuff again
+            this.initialize();
+
+            // trigger containers created
+            this.containersCreated();
         },
 
         /**
@@ -350,9 +375,23 @@
          * on button click
          */
         onMediaControlButtonClick : function(mouseEvent) {
+            // this is a bit of a hack
+            // it's ugly, I know, but I have yet to figure out how the click events work
+            // so I'm bailing if click's target does not have the class 'media-control-subtitle-toggler'
+            // I used this class 'media-control-subtitle-toggler' to identify the right element
             if(!mouseEvent.target.classList.contains('media-control-subtitle-toggler'))
                 return;
 
+            // this is also a bit of a hack
+            // I'm preventing double clicks by checking the time the last click happened
+            // if it's less then a second ago, I bail
+            if (new Date() - this.lastMediaControlButtonClick < 1000)
+                return;
+
+            // update lastMediaControlButtonClick
+            this.lastMediaControlButtonClick = new Date();
+
+            // toggle active on / off
             if(this.active) {
                 this.active = false;
                 mouseEvent.target.style.opacity = '.5';
