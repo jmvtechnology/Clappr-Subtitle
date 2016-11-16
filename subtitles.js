@@ -391,7 +391,7 @@
             // update lastMediaControlButtonClick
             this.lastMediaControlButtonClick = new Date();
 
-            // toggle active on / off
+            // toggle active on/off
             if(this.active) {
                 this.active = false;
                 mouseEvent.target.style.opacity = '.5';
