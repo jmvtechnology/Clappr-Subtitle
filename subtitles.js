@@ -245,7 +245,7 @@
                                 if(text.length > 0)
                                     text += "<br />";
                                 
-                                text = line;
+                                text += line;
                             } else {
                                 // if it doesnt contain text
                                 // close block
