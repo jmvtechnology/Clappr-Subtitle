@@ -224,7 +224,7 @@
 
                 // As for the rest of the lines, we loop through
                 // them and append the to the text,
-                for (var j = 2; j < lines.length; lines++) {
+                for (var j = 2; j < lines.length; j++) {
                     var line = lines[j].trim();
                     
                     if (text.length > 0) {
