@@ -17,6 +17,8 @@
  */
 (function() {
 
+    var BLOCK_REGEX = /[0-9]+(?:\r\n|\r|\n)([0-9]{2}:[0-9]{2}:[0-9]{2}(?:,|\.)[0-9]{3}) --> ([0-9]{2}:[0-9]{2}:[0-9]{2}(?:,|\.)[0-9]{3})(?:\r\n|\r|\n)((?:.*(?:\r\n|\r|\n))*?)(?:\r\n|\r|\n)/g;
+
     window.ClapprSubtitle = Clappr.CorePlugin.extend({
 
         subtitles : [],
@@ -200,87 +202,45 @@
          * @param {string} data
          */
         parseSubtitle : function(datas) {
-            xdata = datas.match(/[0-9]+(?:\r\n|\r|\n)([0-9]{2}:[0-9]{2}:[0-9]{2}(?:,|\.)[0-9]{3}) --> ([0-9]{2}:[0-9]{2}:[0-9]{2}(?:,|\.)[0-9]{3})(?:\r\n|\r|\n)((?:.*(?:\r\n|\r|\n))*?)(?:\r\n|\r|\n)/g);
-        
-            var blockOpen = false,
-                startTime,
-                endTime,
-                text = "";
-
-            var line;
-            console.log(xdata);
-            for(var j = 0; j < xdata.length; j++) {
-                data = xdata[j].split(/(?:\r\n|\r|\n)/);
-                xsubs = xdata[j].replace(/[0-9]+(?:\r\n|\r|\n)([0-9]{2}:[0-9]{2}:[0-9]{2}(?:,|\.)[0-9]{3}) --> ([0-9]{2}:[0-9]{2}:[0-9]{2}(?:,|\.)[0-9]{3})(?:\r\n|\r|\n)/,'');
-                csubs = xsubs.split(/(?:\r\n|\r|\n)/);
-                blockOpen = true;
-               // line = data[i].trim();
-                var lineNum = data;
-                // if block is not open
-              
-                    // set start and end time if
-                    // its the second line of the
-                    // block
-                        var timeline = lineNum[1].split(" --> ");
-                        //console.log(timeline);
-                        startTime = this.humanDurationToSeconds(timeline[0].trim());
-                        endTime = this.humanDurationToSeconds(timeline[1].trim());
-                  
-                        // if it's not the second line of the block
-                        // not it has the time set, close block
-                        if(!startTime || !endTime) {
-                            blockOpen = false;
-                            startTime = null;
-                            endTime = null;
-                            text = "";
-                        } else {
-                            // if start and end times are set
-                            // and text contains text,
-                            // save text
-                            
-                            for(i=0;i<=csubs.length-1;i++) {
-                                if (csubs[i].length > 0) {
-                                    if(text.length > 0)
-                                    text += "<br />";
-                                
-                                    text += csubs[i].trim();
-                                }
-                            }
-                          console.log(text);
-                                this.subtitles.push({
-                                    startTime : startTime,
-                                    endTime : endTime,
-                                    text : text
-                                });
-
-                                // clear attributes
-                                startTime = null;
-                                endTime = null;
-                                text = "";
-                            }
-                        }
-                    
-                
-                
             
-        },
+            // Get blocks and loop through them
+            blocks = datas.match(BLOCK_REGEX);
+            
+            for(var i = 0; i < blocks.length; i++) {
 
-        /**
-         * Check if string given has the syntax of the first line of a block
-         * @param {string} line
-         * @return {bool}
-         */
-        isFirstLineOfBlock : function(line) {
-            return Number(line) == line && line % 1 === 0;
-        },
+                var startTime = null;
+                var endTime = null;
+                var text = "";
 
-        /**
-         * Check if string given has the syntax of the second line of a block
-         * @param {string} line
-         * @return {bool}
-         */
-        isSecondLineOfBlock : function(line) {
-            return /^\d{2}\:\d{2}\:\d{2}\,\d{3}\ \-\-\>\ \d{2}\:\d{2}\:\d{2}\,\d{3}$/.test(line);
+                // Break the block in lines
+                var block = blocks[i];
+                var lines = block.split(/(?:\r\n|\r|\n)/);
+
+                // The second line is the time line.
+                // We parse the start and end time.
+                var time = lines[1].split(' --> ');
+                var startTime = this.humanDurationToSeconds(time[0].trim());
+                var endTime = this.humanDurationToSeconds(time[1].trim());
+
+                // As for the rest of the lines, we loop through
+                // them and append the to the text,
+                for (var j = 2; j < lines.length; lines++) {
+                    var line = lines[j].trim();
+                    
+                    if (text.length > 0) {
+                        text += "<br />";
+                    }
+
+                    text += line;
+                }
+
+                // Then we push it to the subtitles
+                this.subtitles.push({
+                    startTime: startTime,
+                    endTime: endTime,
+                    text: text
+                });    
+            }
         },
 
         /**
@@ -309,7 +269,6 @@
         initializeElement : function() {
             var el = document.createElement('div');
             el.style.display = 'block';
-            //el.style.direction = 'rtl';
             el.style.position = 'absolute';
             el.style.left = '50%';
             el.style.bottom = '50px';
@@ -379,9 +338,9 @@
             if(!mouseEvent.target.classList.contains('media-control-subtitle-toggler'))
                 return;
 
-            // this is also a bit of a hack
-            // I'm preventing double clicks by checking the time the last click happened
-            // if it's less then a second ago, I bail
+            // This is also a bit of a hack.
+            // We are preventing double clicks by checking the time the last click happened
+            // if it's less then 300 miliseconds ago, we bail
             if (new Date() - this.lastMediaControlButtonClick < 300)
                 return;
 
