@@ -32,7 +32,7 @@
             color : '#FFF',
             fontSize : '16px',
             fontWeight : 'bold',
-            textShadow : 'none',
+            textShadow : 'rgb(0,0,0) 2px 2px 2px',
         },
 
         lastMediaControlButtonClick : new Date(),
@@ -199,35 +199,33 @@
          * Parse subtitle
          * @param {string} data
          */
-        parseSubtitle : function(data) {
-            data = data.split("\n");
-
+        parseSubtitle : function(datas) {
+            xdata = datas.match(/[0-9]+(?:\r\n|\r|\n)([0-9]{2}:[0-9]{2}:[0-9]{2}(?:,|\.)[0-9]{3}) --> ([0-9]{2}:[0-9]{2}:[0-9]{2}(?:,|\.)[0-9]{3})(?:\r\n|\r|\n)((?:.*(?:\r\n|\r|\n))*?)(?:\r\n|\r|\n)/g);
+        
             var blockOpen = false,
                 startTime,
                 endTime,
                 text = "";
 
             var line;
-            for(var i = 0; i < data.length; i++) {
-                line = data[i].trim();
-
+            console.log(xdata);
+            for(var j = 0; j < xdata.length; j++) {
+                data = xdata[j].split(/(?:\r\n|\r|\n)/);
+                xsubs = xdata[j].replace(/[0-9]+(?:\r\n|\r|\n)([0-9]{2}:[0-9]{2}:[0-9]{2}(?:,|\.)[0-9]{3}) --> ([0-9]{2}:[0-9]{2}:[0-9]{2}(?:,|\.)[0-9]{3})(?:\r\n|\r|\n)/,'');
+                csubs = xsubs.split(/(?:\r\n|\r|\n)/);
+                blockOpen = true;
+               // line = data[i].trim();
+                var lineNum = data;
                 // if block is not open
-                if(!blockOpen) {
-                    // open block if it is
-                    // the first line of the block
-                    if(this.isFirstLineOfBlock(line)) {
-                        blockOpen = true;
-                    }
-                // if block is open
-                } else {
+              
                     // set start and end time if
                     // its the second line of the
                     // block
-                    if(this.isSecondLineOfBlock(line)) {
-                        line = line.split(" ");
-                        startTime = this.humanDurationToSeconds(line[0]);
-                        endTime = this.humanDurationToSeconds(line[2]);
-                    } else {
+                        var timeline = lineNum[1].split(" --> ");
+                        //console.log(timeline);
+                        startTime = this.humanDurationToSeconds(timeline[0].trim());
+                        endTime = this.humanDurationToSeconds(timeline[1].trim());
+                  
                         // if it's not the second line of the block
                         // not it has the time set, close block
                         if(!startTime || !endTime) {
@@ -239,19 +237,16 @@
                             // if start and end times are set
                             // and text contains text,
                             // save text
-                            if(line.length > 0) {
-                                // break line if text variable
-                                // already contains text
-                                if(text.length > 0)
+                            
+                            for(i=0;i<=csubs.length-1;i++) {
+                                if (csubs[i].length > 0) {
+                                    if(text.length > 0)
                                     text += "<br />";
                                 
-                                text += line;
-                            } else {
-                                // if it doesnt contain text
-                                // close block
-                                blockOpen = false;
-
-                                // register new subtitle
+                                    text += csubs[i].trim();
+                                }
+                            }
+                          console.log(text);
                                 this.subtitles.push({
                                     startTime : startTime,
                                     endTime : endTime,
@@ -264,9 +259,10 @@
                                 text = "";
                             }
                         }
-                    }
-                }
-            }
+                    
+                
+                
+            
         },
 
         /**
@@ -313,6 +309,7 @@
         initializeElement : function() {
             var el = document.createElement('div');
             el.style.display = 'block';
+            //el.style.direction = 'rtl';
             el.style.position = 'absolute';
             el.style.left = '50%';
             el.style.bottom = '50px';
