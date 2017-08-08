@@ -296,7 +296,7 @@
                           .mediaControl
                           .$el
                           .children('.media-control-layer')
-                          .children('.media-control-right-panel').children();
+                          .children('.media-control-right-panel');
             
             // create icon
             var button = document.createElement('button');
