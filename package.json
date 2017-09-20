@@ -1,0 +1,19 @@
+{
+  "name": "clappr-subtitle",
+  "version": "2.0.0",
+  "description": "Simple Usage",
+  "main": "src/clappr-subtitle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JMVTechnology/Clappr-Subtitle.git"
+  },
+  "author": "@thalleshmm",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JMVTechnology/Clappr-Subtitle/issues"
+  },
+  "homepage": "https://github.com/JMVTechnology/Clappr-Subtitle#readme"
+}
