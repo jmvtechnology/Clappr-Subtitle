@@ -1,6 +1,6 @@
 # Clappr Subtitle
 
-Simple Usage
+Simple Setup
 
 ```js
  var player = new Clappr.Player({
@@ -10,8 +10,50 @@ Simple Usage
     height: 360,
     width: 640,
     plugins: [ClapprSubtitle],
-    subtitle : "video.srt" // URL to subtitle
+    subtitle: 'video.srt'.
 });
+
+player.attachTo(document.getElementById('player'));
+```
+
+Multiple Tracks
+
+```js
+ var player = new Clappr.Player({
+    source: 'video.mp4',
+    baseUrl: '/latest',
+    mute: true,
+    height: 360,
+    width: 640,
+    plugins: [ClapprSubtitle],
+    subtitle: ['english.srt', 'portuguese.srt']
+});
+
+player.attachTo(document.getElementById('player'));
+```
+
+Multiple Tracks with Title
+
+```js
+ var player = new Clappr.Player({
+    source: 'video.mp4',
+    baseUrl: '/latest',
+    mute: true,
+    height: 360,
+    width: 640,
+    plugins: [ClapprSubtitle],
+    subtitle: [
+        {
+            title: 'English',
+            src:   'english.srt'
+        },
+        {
+            title: 'Português',
+            src:   'portuguese.srt'
+        }
+    ]
+});
+
 player.attachTo(document.getElementById('player'));
 ```
 
@@ -26,15 +68,18 @@ Styling the subtitles
     width: 640,
     plugins: [ClapprSubtitle],
     subtitle : {
-        src : "video.srt",
-        auto : true, // automatically loads subtitle
-        backgroundColor : 'transparent',
-        fontWeight : 'normal',
-        fontSize : '14px',
-        color: 'yellow',
-        textShadow : '1px 1px #000'
+        src: "video.srt",
+        auto: true, // Automatically loads the subtitle
+        style: { // Any css property defined here will style the div containing the subtitle.
+            backgroundColor : 'transparent',
+            fontWeight : 'normal',
+            fontSize : '14px',
+            color: 'yellow',
+            textShadow : '1px 1px #000'
+        }
     },
 });
+
 player.attachTo(document.getElementById('player'));
 ```
 
