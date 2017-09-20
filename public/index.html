@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="utf-8">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width;initial-scale=1.0" />
+        <title>ClapprSubtitle by JMV Technology</title>
+        
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/clappr/latest/clappr.min.js"></script>
+        <script type="text/javascript" src="../dist/subtitles.js"></script>
+    </head>
+    <body>
+        <h1>ClapprSubtitle</h1>
+
+        <h2>Simple Setup</h2>
+        <div id="player-1"></div>
+        <script type="text/javascript">
+            var simpleSetup = new Clappr.Player({
+                source: 'http://clappr.io/highline.mp4',
+                baseUrl: '/latest',
+                mute: true,
+                height: 360,
+                width: 640,
+                plugins: [ClapprSubtitle],
+                subtitle: 'english.srt'
+            });
+
+            simpleSetup.attachTo(document.getElementById('player-1'));
+        </script>
+
+        <h2>Multiple Tracks</h2>
+        <div id="player-2"></div>
+        <script type="text/javascript">
+            var multipleTracks = new Clappr.Player({
+                source: 'http://clappr.io/highline.mp4',
+                baseUrl: '/latest',
+                mute: true,
+                height: 360,
+                width: 640,
+                plugins: [ClapprSubtitle],
+                subtitle: ['english.srt', 'portuguese.srt']
+            });
+            
+            multipleTracks.attachTo(document.getElementById('player-2'));
+        </script>
+
+        <h2>Multiple Tracks with Title</h2>
+        <div id="player-3"></div>
+        <script type="text/javascript">
+            var multipleTracksWithTitle = new Clappr.Player({
+                source: 'http://clappr.io/highline.mp4',
+                baseUrl: '/latest',
+                mute: true,
+                height: 360,
+                width: 640,
+                plugins: [ClapprSubtitle],
+                subtitle: [
+                    {
+                        title: 'English',
+                        src:   'english.srt'
+                    },
+                    {
+                        title: 'Português',
+                        src:   'portuguese.srt'
+                    }
+                ]
+            });
+            
+            multipleTracksWithTitle.attachTo(document.getElementById('player-3'));
+        </script>
+
+        <h2>Styled</h2>
+        <div id="player-3"></div>
+        <script type="text/javascript">
+            var player = new Clappr.Player({
+                source: 'http://clappr.io/highline.mp4',
+                baseUrl: '/latest',
+                mute: true,
+                height: 360,
+                width: 640,
+                plugins: [ClapprSubtitle],
+                subtitle : {
+                    src: "english.srt",
+                    auto: true, // Automatically loads the subtitle
+                    style: { // Any css property defined here will style the div containing the subtitle.
+                        backgroundColor : 'transparent',
+                        fontWeight : 'normal',
+                        fontSize : '14px',
+                        color: 'yellow',
+                        textShadow : '1px 1px #000'
+                    }
+                },
+            });
+            
+            player.attachTo(document.getElementById('player'));
+        </script>
+
+    </body>
+</html>
